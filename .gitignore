@@ -1,0 +1,43 @@
+# Ignore target directories (compiled bytecode and build artifacts)
+target/
+
+# Ignore specific files in the Maven wrapper directory
+!.mvn/wrapper/maven-wrapper.jar
+
+# Exclude target directories under src/main and src/test
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+# Ignore IDE-specific files for STS (Spring Tool Suite)
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+# Ignore IntelliJ IDEA files
+.idea
+*.iws
+*.iml
+*.ipr
+
+# Ignore NetBeans specific directories and files
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+# Ignore VS Code specific files
+.vscode/
+
+# Ignore application-specific configuration files (replace with your actual file names if different)
+application.properties
+application.yml
+
+# Additional exclusions for other sensitive files can be added here if needed

@@ -1,0 +1,58 @@
+.container {
+  
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    margin: 0;
+    background-image: url('https://t3.ftcdn.net/jpg/03/55/60/70/360_F_355607062_zYMS8jaz4SfoykpWz5oViRVKL32IabTP.jpg');
+  }
+  mat-card {
+    background-color: #f9f9f987;
+    border-radius: 10px;
+    max-width: 450px;
+    width: 100%;
+    padding: 20px;
+  }     
+  @media screen and (max-width: 500px) {
+    mat-card {
+      max-width: 90%;
+    }
+  }
+  mat-card-title {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 20px;
+    font-weight: 400;
+  }
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  mat-form-field {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  button {
+    margin: 5px;
+    width: 100%;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+  @media screen and (max-width: 500px) {
+    mat-card-title {
+      font-size: 20px;
+    }
+    mat-form-field {
+      margin-bottom: 10px;
+    }
+  }
+  .icon {
+    vertical-align: middle;
+    margin-right: 8px;
+  }
+  .error-snackbar {
+    background-color: #f44336!important;
+  }
+  
