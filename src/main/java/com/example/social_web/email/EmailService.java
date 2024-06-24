@@ -31,4 +31,24 @@ public class EmailService {
         messageHelper.setText(mailContent, true);
         mailSender.send(message);
     }
+
+    public void sendResetPasswordEmail(String url, String username) throws jakarta.mail.MessagingException, UnsupportedEncodingException {
+
+        String subject = "Reset Password";
+        String senderName = "User Registration Portal Service";
+        String mailContent = "<p> Hi, " + username + ", </p>" +
+                "<p>We received a request to reset your password. " +
+                "Please, follow the link below to reset your password.</p>" +
+                "<a href=\"" + url + "\">Reset your password</a>" +
+                "<p>If you did not request a password reset, please ignore this email or contact support if you have questions.</p>" +
+                "<p> Thank you <br> User Registration Portal Service</p>";
+
+        MimeMessage message = mailSender.createMimeMessage();
+        var messageHelper = new MimeMessageHelper(message);
+        messageHelper.setFrom("bubakush20099@gmail.com", senderName);
+        messageHelper.setTo(username);
+        messageHelper.setSubject(subject);
+        messageHelper.setText(mailContent, true);
+        mailSender.send(message);
+    }
 }

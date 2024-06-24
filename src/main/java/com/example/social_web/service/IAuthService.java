@@ -2,8 +2,7 @@ package com.example.social_web.service;
 
 import com.example.social_web.exception.EmailExistedException;
 import com.example.social_web.exception.UserMistake;
-import com.example.social_web.payload.request.LoginDTO;
-import com.example.social_web.payload.request.RegisterDTO;
+import com.example.social_web.payload.request.*;
 import com.example.social_web.payload.response.AuthenticationResponse;
 import jakarta.mail.MessagingException;
 
@@ -15,4 +14,8 @@ public interface IAuthService {
      AuthenticationResponse authenticate(LoginDTO dto);
      void register(RegisterDTO dto) throws EmailExistedException, MessagingException, UnsupportedEncodingException;
      void verifyEmail(String token) throws MessagingException, UnsupportedEncodingException;
+     AuthenticationResponse refreshToken(RefreshTokenDTO dto);
+
+     void ForgotPassword(ForgotPasswordDTO dto) throws MessagingException, UnsupportedEncodingException;
+     void resetPassword(String token, PasswordCreateDTO dto) throws MessagingException, UnsupportedEncodingException, UserMistake;
 }

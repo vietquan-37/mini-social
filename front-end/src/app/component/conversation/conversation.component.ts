@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component,Input } from '@angular/core';
+import { Conversation } from 'src/app/models/conversation';
 
 @Component({
   selector: 'app-conversation',
@@ -6,5 +7,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./conversation.component.css']
 })
 export class ConversationComponent {
-
+  @Input() conversation!: Conversation;
 }

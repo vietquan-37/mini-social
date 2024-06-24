@@ -5,6 +5,7 @@ import { RegisterComponent } from './page/register/register.component';
 import { AuthenticateComponent } from './page/authenticate/authenticate.component';
 import { HomeComponent } from './page/home/home.component';
 import { MessengerComponent } from './page/messenger/messenger.component';
+import { CreatePasswordComponent } from './component/create-password/create-password.component';
 
 
 const routes: Routes = [
@@ -13,6 +14,7 @@ const routes: Routes = [
   { path: 'authenticate', component: AuthenticateComponent },
   { path: '', component: HomeComponent },
   { path: 'message', component: MessengerComponent },
+  { path: 'create-password', component: CreatePasswordComponent },
 
 ];
 

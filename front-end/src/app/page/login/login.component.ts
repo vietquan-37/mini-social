@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthenticateService } from '../../service/auth/authenticate.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 
 @Component({
@@ -11,27 +12,28 @@ import { AuthenticateService } from '../../service/auth/authenticate.service';
 })
 export class LoginComponent implements OnInit {
   hidePassword = true;
-  successMessage:string ="";
+
   loginForm!: FormGroup;
-  errorMessage!:string
+
   constructor(private fb: FormBuilder,
-    private service:AuthenticateService,
-    private router:Router,
+    private service: AuthenticateService,
+    private router: Router,
+    private snackBar: MatSnackBar
 
   ) { }
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
+      username: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(16)]],
     })
-   
+
   }
-  handleGoogle():void{
-    const callbackUrl ="http://localhost:4200/authenticate";
+  handleGoogle(): void {
+    const callbackUrl = "http://localhost:4200/authenticate";
     const authUrl = "https://accounts.google.com/o/oauth2/auth";
     const googleClientId = "304094440461-shiv5qppkpk2d72pk0bf3ff918tt5qil.apps.googleusercontent.com";
-  
+
     const targetUrl = `${authUrl}?redirect_uri=${encodeURIComponent(
       callbackUrl
     )}&response_type=code&client_id=${googleClientId}&scope=openid%20email%20profile`;
@@ -40,30 +42,30 @@ export class LoginComponent implements OnInit {
 
     window.location.href = targetUrl;
   }
-  
-handleGitHub(): void {
-  const callbackUrl = "http://localhost:4200/authenticate";
-  const authUrl = "https://github.com/login/oauth/authorize";
-  const githubClientId = "Ov23ctLi3AiglvaVhxZL";
-  const scopes = "user";
 
-  const targetUrl = `${authUrl}?client_id=${githubClientId}&redirect_uri=${encodeURIComponent(callbackUrl)}&scope=${encodeURIComponent(scopes)}`;
+  handleGitHub(): void {
+    const callbackUrl = "http://localhost:4200/authenticate";
+    const authUrl = "https://github.com/login/oauth/authorize";
+    const githubClientId = "Ov23ctLi3AiglvaVhxZL";
+    const scopes = "user";
 
-  window.location.href = targetUrl;
-}
-  
-  onSubmit():void{
-   if(this.loginForm.valid){
-    this.service.authenticate(this.loginForm.value).subscribe((response:any)=>{
-      this.router.navigate(['']);
+    const targetUrl = `${authUrl}?client_id=${githubClientId}&redirect_uri=${encodeURIComponent(callbackUrl)}&scope=${encodeURIComponent(scopes)}`;
+
+    window.location.href = targetUrl;
+  }
+
+  onSubmit(): void {
+    if (this.loginForm.valid) {
+      this.service.authenticate(this.loginForm.value).subscribe((response: any) => {
+        this.router.navigate(['']);
+      }
+        ,
+        (error) => {
+          this.snackBar.open(error?.error.error, 'Close', { duration: 3000 })
+        }
+
+      )
     }
-    ,
-    (error)=>{
-this.errorMessage=error?.error.error
-    }
-
-  )
-   }
   }
   togglePassword() {
     this.hidePassword = !this.hidePassword;

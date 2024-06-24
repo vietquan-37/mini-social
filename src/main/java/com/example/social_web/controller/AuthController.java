@@ -2,8 +2,7 @@ package com.example.social_web.controller;
 
 import com.example.social_web.exception.EmailExistedException;
 import com.example.social_web.exception.UserMistake;
-import com.example.social_web.payload.request.LoginDTO;
-import com.example.social_web.payload.request.RegisterDTO;
+import com.example.social_web.payload.request.*;
 import com.example.social_web.payload.response.APIResponse;
 import com.example.social_web.service.IAuthService;
 import jakarta.mail.MessagingException;
@@ -56,5 +55,26 @@ public class AuthController {
     ResponseEntity<APIResponse> verify(@RequestParam String token) throws MessagingException, UnsupportedEncodingException {
         authService.verifyEmail(token);
         return ResponseEntity.ok(APIResponse.builder().status(HttpStatus.OK.value()).data("Account has been verified").build());
+    }
+    @PostMapping("/refresh-token")
+    public ResponseEntity<APIResponse> refreshToken(
+            @Valid  @RequestBody RefreshTokenDTO request
+    ) {
+        return ResponseEntity.ok(APIResponse.builder().status(HttpStatus.OK.value())
+                .data(authService.refreshToken(request)).build());
+    }
+    @PostMapping("/forgot-password")
+    public ResponseEntity<APIResponse> forgotPassword(
+            @Valid  @RequestBody ForgotPasswordDTO request
+    ) throws MessagingException, UnsupportedEncodingException {
+        authService.ForgotPassword(request);
+        return ResponseEntity.ok(APIResponse.builder().status(HttpStatus.OK.value()).data("send forgot password email successfully").build());
+    }
+    @PostMapping("/reset-password")
+    public ResponseEntity<APIResponse> resetPassword(
+            @RequestParam String token,     @Valid  @RequestBody PasswordCreateDTO request
+    ) throws MessagingException, UnsupportedEncodingException, UserMistake {
+        authService.resetPassword(token,request);
+        return ResponseEntity.ok(APIResponse.builder().status(HttpStatus.OK.value()).data("reset password successfully").build());
     }
 }

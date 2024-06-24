@@ -16,9 +16,7 @@ import com.example.social_web.enums.TokenType;
 import com.example.social_web.exception.EmailExistedException;
 import com.example.social_web.exception.UserMistake;
 import com.example.social_web.mapper.UserMapper;
-import com.example.social_web.payload.request.ExchangeTokenRequest;
-import com.example.social_web.payload.request.LoginDTO;
-import com.example.social_web.payload.request.RegisterDTO;
+import com.example.social_web.payload.request.*;
 import com.example.social_web.payload.response.AuthenticationResponse;
 import com.example.social_web.repo.Oauth2Repository;
 import com.example.social_web.repo.TokenRepository;
@@ -33,6 +31,7 @@ import lombok.experimental.NonFinal;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.UnsupportedEncodingException;
@@ -56,12 +55,14 @@ public class AuthService implements IAuthService {
     GitHubUserClient gitHubUserClient;
     TokenRepository tokenRepository;
     EmailService emailService;
+    PasswordEncoder passwordEncoder;
     @NonFinal
     protected static final String GRANT_TYPE = "authorization_code";
     @NonFinal
     @Value("${outbound.identity.client-id}")
     protected String CLIENT_ID;
     static final String VERIFICATION_URL = "http://localhost:8080/api/v1/auth/verify-email?token=";
+    static final String RESET_PASSWORD_URL = "http://localhost:4200/api/v1/auth/reset-password?token=";
     @NonFinal
     @Value("${outbound.identity.github.client-id}")
     protected String GITHUB_CLIENT_ID;
@@ -113,6 +114,7 @@ public class AuthService implements IAuthService {
 
         return AuthenticationResponse.builder().accessToken(accessToken).refreshToken(refreshToken).role(Role.USER).userId(user.getId()).build();
     }
+
     public AuthenticationResponse outboundGitHubAuthenticate(String code) throws UserMistake {
         Map<String, String> formParams = createFormParams(code);
 
@@ -150,6 +152,7 @@ public class AuthService implements IAuthService {
                 .userId(user.getId())
                 .build();
     }
+
     private Map<String, String> createFormParams(String code) {
         Map<String, String> formParams = new HashMap<>();
         formParams.put("code", code);
@@ -194,6 +197,35 @@ public class AuthService implements IAuthService {
         }
         user.setAccountLocked(false);
         userRepository.save(user);
+    }
+
+    @Override
+    public AuthenticationResponse refreshToken(RefreshTokenDTO dto) {
+        return null;
+    }
+
+    @Override
+    public void resetPassword(String token, PasswordCreateDTO dto) throws MessagingException, UnsupportedEncodingException, UserMistake {
+        Token resetToken = tokenRepository.findByTokenAndType(token, TokenType.RESET).orElseThrow(() -> new EntityNotFoundException("Token not found"));
+        if (LocalDateTime.now().isAfter(resetToken.getExpiresAt())) {
+            var tokenResend = generateAndSaveToken(resetToken.getUser(), TokenType.RESET);
+            emailService.sendResetPasswordEmail(RESET_PASSWORD_URL + tokenResend, resetToken.getUser().getUsername());
+            throw new RuntimeException("The verification link has expired. A new link has been sent to your email. Please check your email.");
+        }
+        if (!dto.getPassword().equals(dto.getConfirmPassword())) {
+            throw new UserMistake("The password does not match the confirm password.");
+        }
+        User user = userRepository.findById(resetToken.getUser().getId())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        user.setPassword(passwordEncoder.encode(dto.getPassword()));
+        userRepository.save(user);
+    }
+
+    @Override
+    public void ForgotPassword(ForgotPasswordDTO dto) throws MessagingException, UnsupportedEncodingException {
+        User user = userRepository.findByUsername(dto.getEmail()).orElseThrow(() -> new EntityNotFoundException("User not found"));
+        String token = generateAndSaveToken(user, TokenType.RESET);
+        emailService.sendResetPasswordEmail(RESET_PASSWORD_URL + token, user.getUsername());
     }
 
     private String generateAndSaveToken(User user, TokenType type) {

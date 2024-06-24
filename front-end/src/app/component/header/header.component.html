@@ -11,15 +11,15 @@
     </div>
     <div class="bottom">
       <div class="topbarIcons">
-        <div class="topbarIconItem">
+        <div class="topbarIconItem" [routerLink]="['/']">
           <fa-icon [icon]="['fas', 'home']" class="icon"></fa-icon>
         </div>
         <div class="topbarIconItem">
           <fa-icon [icon]="['fas', 'user-alt']" class="icon"></fa-icon>
           <span class="topbarIconBadge">1</span>
         </div>
-        <div class="topbarIconItem">
-          <fa-icon [icon]="['fas', 'message']" class="icon"></fa-icon>
+        <div class="topbarIconItem" [routerLink]="['/message']">
+          <fa-icon [icon]="['fas', 'message']" class="icon" ></fa-icon>
           <span class="topbarIconBadge">2</span>
         </div>
         <div class="topbarIconItem">

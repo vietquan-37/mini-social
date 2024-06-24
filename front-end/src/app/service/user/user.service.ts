@@ -26,6 +26,10 @@ export class UserService {
         }))
       );
   }
+  createPassword(dto: { password: string, confirmPassword: string }): Observable<any> {
+    return this.http.patch<any>(`${this.baseUrl}/create-password`, dto, { headers: this.createHeader() });
+  }
+  
 
   private createHeader(): HttpHeaders {
     return new HttpHeaders().set(

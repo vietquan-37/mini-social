@@ -21,6 +21,7 @@ import { FeedComponent } from './component/feed/feed.component';
 import { MessengerComponent } from './page/messenger/messenger.component';
 import { ConversationComponent } from './component/conversation/conversation.component';
 import { MessageComponent } from './component/message/message.component';
+import { CreatePasswordComponent } from './component/create-password/create-password.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { MessageComponent } from './component/message/message.component';
     FeedComponent,
     MessengerComponent,
     ConversationComponent,
-    MessageComponent
+    MessageComponent,
+    CreatePasswordComponent
   ],
   imports: [
     BrowserModule,

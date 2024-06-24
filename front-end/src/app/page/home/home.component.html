@@ -1,5 +1,10 @@
 <app-header [users]="user"></app-header>
-<div class="home">
-<app-feed></app-feed>
-   
+
+<div *ngIf="user?.password === null" class="password">
+  <a [routerLink]="['/create-password']" [password]="'password'">Please update the password to login in our system</a>
 </div>
+
+<div class="home">
+  <app-feed></app-feed>
+</div>
+    
