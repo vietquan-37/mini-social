@@ -8,7 +8,7 @@ import { User } from 'src/app/models/user';
 })
 export class HeaderComponent  {
   @Input() users: User | undefined;
-  defaultAvatarUrl: string = './assets/image/default-avatar.jpg';
+  
 
   constructor() {}
 

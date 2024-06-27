@@ -46,7 +46,8 @@ import { CreatePasswordComponent } from './component/create-password/create-pass
     HttpClientModule,
     BrowserAnimationsModule,
     MaterialModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+   FormsModule
     
   ],
   providers: [],

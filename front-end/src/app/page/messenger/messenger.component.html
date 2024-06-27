@@ -1,34 +1,33 @@
 <app-header></app-header>
 <div class="messages">
-    <div class="chatMenu">
-        <div class="chatMenuWrapper">
-            <input placeholder='Search for friends' class="chatMenuInput" />
-            <div *ngFor="let c of conversations">
-                <app-conversation [conversation]="c"></app-conversation>
-            </div>
-        </div>
+  <div class="chatMenu">
+    <div class="chatMenuWrapper">
+      <input placeholder='Search for friends' class="chatMenuInput" />
+      <div *ngFor="let c of conversations" (click)="selectConversation(c)">
+        <app-conversation [conversation]="c"></app-conversation>
+      </div>
     </div>
+  </div>
+  <div class="chatBox" *ngIf="currentConversation; else noConversationSelected">
+    <div class="chatBoxWrapper">
+      <div class='headerChat'>
+        <img class='messageImg' [src]="currentConversation.userImage" />
+        <p class='displayName'>{{ currentConversation.name }}</p>
+      </div>
+      <div class="chatBoxTop">
+        <app-message *ngFor="let message of currentConversationMessages"[conversation]="currentConversation" [message]="message" [own]="message.senderId == userId"></app-message>
+      </div>
+      <div class="chatBoxBottom">
+        <textarea class='chatInput' placeholder='Write something ....' [(ngModel)]="messageContent" (keydown.enter)="sendMessage()"></textarea>
+        <button class='chatSubmit' (click)="sendMessage()">Send</button>
+      </div>
+    </div>
+  </div>
+  <ng-template #noConversationSelected>
     <div class="chatBox">
-
-        <div class="chatBoxWrapper">
-            <div class='headerChat'>
-                <img class='messageImg' src='https://t3.ftcdn.net/jpg/03/55/60/70/360_F_355607062_zYMS8jaz4SfoykpWz5oViRVKL32IabTP.jpg' />
-                <p class='displayName'>Loan cho</p>
-            </div>
-
-            <div class="chatBoxTop">
-
-                <app-message [own]="true"></app-message>
-                <app-message></app-message>
-                <app-message [own]="true"></app-message>
-                <app-message></app-message>
-                <app-message [own]="true"></app-message>
-            </div>
-            <div class="chatBoxBottom">
-                <textarea class='chatInput' placeholder='write something ....'></textarea>
-                <button class='chatSubmit'>Send</button>
-            </div>
-        </div>
+      <div class="chatBoxWrapper">
+        <p style="text-align: center; padding: 20px;">Select a conversation to start chatting.</p>
+      </div>
     </div>
-
+  </ng-template>
 </div>

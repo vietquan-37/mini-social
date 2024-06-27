@@ -13,9 +13,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class MessageResponse {
+    private String senderId;
     private String content;
     private LocalDateTime timestamp;
-    private String senderName;
-    private String senderAvatar;
 
 }

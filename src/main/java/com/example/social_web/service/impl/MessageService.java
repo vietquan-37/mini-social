@@ -7,6 +7,7 @@ import com.example.social_web.payload.request.MessageCreateDTO;
 import com.example.social_web.payload.response.MessageResponse;
 import com.example.social_web.repo.ChatRepository;
 import com.example.social_web.repo.MessageRepository;
+import com.example.social_web.repo.UserRepository;
 import com.example.social_web.service.IMessageService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AccessLevel;
@@ -25,28 +26,25 @@ public class MessageService implements IMessageService {
     ChatRepository chatRepository;
     MessageRepository messageRepository;
     MessageMapper mapper;
-
+    UserRepository userRepository;
 
 
     @Override
-    public void sendMessage(Authentication authentication, Integer chatId, MessageCreateDTO messageCreateDTO) {
+    public MessageResponse sendMessage(Authentication authentication, Integer chatId, MessageCreateDTO messageCreateDTO) {
         User user = (User) authentication.getPrincipal();
-        var chat = chatRepository.findChatByUsersIdAndId(user.getId(),chatId).orElseThrow(()->new EntityNotFoundException("chat not found"));
-
-        Message message ;
-        message=mapper.mapDTO(messageCreateDTO);
+        var chat = chatRepository.findById(chatId).orElseThrow(() -> new EntityNotFoundException("chat not found"));
+        user = userRepository.findById(user.getId()).orElseThrow(() -> new EntityNotFoundException("user not found"));
+        Message message = mapper.mapDTO(messageCreateDTO);
         message.setChat(chat);
         message.setUser(user);
         messageRepository.save(message);
-
-
-
+        return mapper.mapResponse(message);
     }
 
     @Override
-    public List<MessageResponse> getAllMessageByChatId( Integer chatId) {
-    chatRepository.findById(chatId).orElseThrow(()->new EntityNotFoundException("chat not found"));
-        List<Message>messages=messageRepository.findAllByChatId(chatId);
+    public List<MessageResponse> getAllMessageByChatId(Integer chatId) {
+        chatRepository.findById(chatId).orElseThrow(() -> new EntityNotFoundException("chat not found"));
+        List<Message> messages = messageRepository.findAllByChatId(chatId);
         return messages.stream().map(mapper::mapResponse).collect(Collectors.toList());
     }
 

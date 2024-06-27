@@ -7,6 +7,6 @@ import org.springframework.security.core.Authentication;
 import java.util.List;
 
 public interface IMessageService {
-    void sendMessage(Authentication authentication,Integer chatId,MessageCreateDTO messageCreateDTO);
+    MessageResponse sendMessage(Authentication authentication,Integer chatId,MessageCreateDTO messageCreateDTO);
     List<MessageResponse> getAllMessageByChatId(Integer chatId);
 }

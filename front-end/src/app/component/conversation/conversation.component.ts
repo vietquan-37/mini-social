@@ -1,4 +1,4 @@
-import { Component,Input } from '@angular/core';
+import { Component,Input, OnInit } from '@angular/core';
 import { Conversation } from 'src/app/models/conversation';
 
 @Component({
@@ -6,6 +6,9 @@ import { Conversation } from 'src/app/models/conversation';
   templateUrl: './conversation.component.html',
   styleUrls: ['./conversation.component.css']
 })
-export class ConversationComponent {
+export class ConversationComponent implements OnInit{
   @Input() conversation!: Conversation;
+  ngOnInit(): void {
+    console.log(this.conversation)
+  }
 }
