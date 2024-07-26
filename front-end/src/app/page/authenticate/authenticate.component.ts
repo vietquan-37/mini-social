@@ -45,7 +45,7 @@ export class AuthenticateComponent implements OnInit {
   }
 
   authenticateWithFacebook(code: string): void {
-    this.service.authenticateFacebook(code).subscribe(
+    this.service.authenticateGitHub(code).subscribe(
       () => {
         this.isLoading = false;
         this.router.navigate(['/']);

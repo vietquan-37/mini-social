@@ -1,26 +1,28 @@
 <div class="share">
-    <div class="shareWrapper">
-      <div class="shareTop">
-        <img class="shareProfileImg" src="https://scontent.fsgn5-5.fna.fbcdn.net/v/t39.30808-6/406584476_1524825711675173_4253876822231741739_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=5f2048&_nc_eui2=AeFguZmx1eDUezs4fjeEHC9tzSEhTyas_ZfNISFPJqz9l-LSENd9kNN2ygp25rBAOP768lRQqEJdvjTI_TrQqNHQ&_nc_ohc=ifIz6M68w8kQ7kNvgHDwlRv&_nc_ht=scontent.fsgn5-5.fna&oh=00_AYBY75XRIF03cnwRMa3Ao6mNYATi2ufCEKVKUwj9F715xw&oe=667C2F37" alt="" />
-        <input
-          placeholder="What's in your mind Safak?"
-          class="shareInput"
-        />
-      </div>
-      <hr class="shareHr"/>
-      <div class="shareBottom">
-        <div class="shareOptions">
-            <div class="shareOption">
-                <fa-icon [icon]="['fas', 'photo-video']" class="shareIcon" style="color: tomato;"></fa-icon>
-                <span class="shareOptionText">Photo or Video</span>
-            </div>
-            <div class="shareOption">
-                <fa-icon [icon]="['fas', 'tag']" class="shareIcon" style="color: blue;"></fa-icon>
-                <span class="shareOptionText">Tag</span>
-            </div>
-           
-        </div>
-          <button class="shareButton">Share</button>
-      </div>
+  <div class="shareWrapper">
+    <form [formGroup]="shareForm" (ngSubmit)="addPost()">
+    <div class="shareTop">
+      <img class="shareProfileImg" [src]="user?.avatarUrl" alt="" />
+      <textarea
+        formControlName="content"
+        placeholder="What's in your mind"
+        class="shareInput"
+      ></textarea>
     </div>
+    <hr class="shareHr" />
+    <div class="shareBottom">
+      <div class="shareOptions">
+        <div class="shareOption">
+          <fa-icon [icon]="['fas', 'photo-video']" class="shareIcon" style="color: tomato;"></fa-icon>
+          <span class="shareOptionText">Photo or Video</span>
+        </div>
+        <div class="shareOption">
+          <fa-icon [icon]="['fas', 'tag']" class="shareIcon" style="color: blue;"></fa-icon>
+          <span class="shareOptionText">Tag</span>
+        </div>
+      </div>
+      <button type="submit" class="shareButton"  [disabled]="shareForm.invalid">Share</button>
+    </div>
+  </form>
   </div>
+</div>

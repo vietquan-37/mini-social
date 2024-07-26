@@ -8,15 +8,17 @@ import { UserService } from 'src/app/service/user/user.service';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  user: User | undefined;
+  user: User | null = null;
 
   constructor(private userService: UserService) { }
-
-  ngOnInit(): void {
+ngOnInit(): void {
+  this.getUserInfo()
+}
+  getUserInfo() {
     this.userService.getUserInfo().subscribe(
       (data: User) => {
         this.user = data;
-        console.log("Avatar URL: " + this.user.avatarUrl);
+     
       },
       (error) => {
         console.error('Error fetching user info:', error);

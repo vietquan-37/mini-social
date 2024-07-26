@@ -1,8 +1,8 @@
 // user.service.ts
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
 import { User } from 'src/app/models/user';
 
 @Injectable({
@@ -10,6 +10,7 @@ import { User } from 'src/app/models/user';
 })
 export class UserService {
   private baseUrl = 'http://localhost:8080/api/user';
+  private userSubject: BehaviorSubject<User | null> = new BehaviorSubject<User | null>(null);
 
   constructor(private http: HttpClient) {}
 
@@ -23,13 +24,18 @@ export class UserService {
           email: response.data.email,
           password: response.data.password,
           phone: response.data.phone
-        }))
+        })),
+        tap(user => this.userSubject.next(user))
       );
   }
+
+  getUser(): Observable<User | null> {
+    return this.userSubject.asObservable();
+  }
+
   createPassword(dto: { password: string, confirmPassword: string }): Observable<any> {
     return this.http.patch<any>(`${this.baseUrl}/create-password`, dto, { headers: this.createHeader() });
   }
-  
 
   private createHeader(): HttpHeaders {
     return new HttpHeaders().set(

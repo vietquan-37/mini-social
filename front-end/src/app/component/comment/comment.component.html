@@ -1,0 +1,20 @@
+<div class="comments">
+  <div *ngFor="let comment of comments">
+    <div class="comment">
+      <img [src]="comment.userImage" alt="" />
+      <div class="info">
+        <span>{{ comment.username }}</span>
+        <p>{{ comment.content }}</p>
+      </div>
+      <span class="date">{{ comment.createTime | date: 'short' }}</span>
+    </div>
+  </div>
+  <div class="write">
+    <img [src]="user?.avatarUrl" alt="" />
+    <textarea
+      placeholder="Write a comment"
+      [(ngModel)]="content"
+    ></textarea>
+    <button (click)="addComment()">Send</button>
+  </div>
+</div>

@@ -24,8 +24,7 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit(): void {
     this.formData = this.fb.group({
-      firstname: ['', Validators.required],
-      lastname: ['', Validators.required],
+      name: ['', Validators.required],
       username: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(16)]],
       phone: ['', [Validators.required, Validators.pattern('\\d{10,11}')]]
@@ -37,7 +36,7 @@ export class RegisterComponent implements OnInit {
       this.service.register(this.formData.value).subscribe(
         (response: any) => {
           this.formData.reset();
-          // this.showConfirmationDialog();
+          this.router.navigate(['login']);
         },
         (error) => {
           this.errorMessage = error.error?.error;
@@ -46,15 +45,5 @@ export class RegisterComponent implements OnInit {
     }
   }
 
-  // showConfirmationDialog(): void {
-  //   const dialogRef = this.dialog.open(this.confirmationDialog);
-
-  //   dialogRef.afterClosed().subscribe(() => {
-  //     this.router.navigate(['login']);
-  //   });
-  // }
-
-  // closeDialog(): void {
-  //   this.dialog.closeAll();
-  // }
+ 
 }

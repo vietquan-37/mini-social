@@ -22,6 +22,7 @@ import { MessengerComponent } from './page/messenger/messenger.component';
 import { ConversationComponent } from './component/conversation/conversation.component';
 import { MessageComponent } from './component/message/message.component';
 import { CreatePasswordComponent } from './component/create-password/create-password.component';
+import { CommentComponent } from './component/comment/comment.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { CreatePasswordComponent } from './component/create-password/create-pass
     MessengerComponent,
     ConversationComponent,
     MessageComponent,
-    CreatePasswordComponent
+    CreatePasswordComponent,
+    CommentComponent
   ],
   imports: [
     BrowserModule,

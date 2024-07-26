@@ -24,7 +24,7 @@ public class Post {
     LocalDateTime publishDate;
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     User user;
-    boolean isDeleted;
+    boolean deleted;
     String imageUrl;
     @ManyToMany
     @JoinTable(

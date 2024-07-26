@@ -30,8 +30,11 @@ public class ChatService implements IChatService {
 
     @Override
     public void createChat(Authentication authentication, ChatCreateDTO dto) {
-        User user = (User) authentication.getPrincipal();
-        User user2 = userRepository.findById(dto.getUserId()).orElseThrow(() -> new EntityNotFoundException("User not found"));
+        User authenticatedUser = (User) authentication.getPrincipal();
+        User user = userRepository.findById(authenticatedUser.getId())
+                .orElseThrow(() -> new EntityNotFoundException("user not found"));
+        User user2 = userRepository.findById(dto.getUserId())
+                .orElseThrow(() -> new EntityNotFoundException("User not found"));
         chatRepository.findChatByUsersId(user, user2).orElseGet(() -> {
             Chat chat = new Chat();
             chat.getUsers().add(user);
@@ -40,9 +43,8 @@ public class ChatService implements IChatService {
             chat.setDeleted(false);
             return chatRepository.save(chat);
         });
-
-
     }
+
     @Override
     public List<UserChatResponse> getUserToChat(Authentication authentication) {
         User authenticatedUser = (User) authentication.getPrincipal();

@@ -21,6 +21,7 @@ public interface UserMapper {
     User registerMapper(RegisterDTO dto);
     @Mapping(target = "id", source="id")
     @Mapping(target = "email", source="username")
+    @Mapping(target = "name", source="name")
     @Mapping(target = "phone", source="telephone")
     @Mapping(source = "password",target = "password")
     @Mapping(target = "avatarUrl", source="imageUrl")

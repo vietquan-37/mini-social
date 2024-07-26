@@ -2,18 +2,12 @@
     <div class="register-form">
       <h2>Register</h2>
       <form [formGroup]="formData" (ngSubmit)="onSubmit()">
+       
         <div class="form-group">
-          <label for="firstname" class="txt2 bo1">First Name</label>
-          <input type="text" id="firstname" formControlName="firstname" required>
-          <div *ngIf="formData.get('firstname')?.hasError('required')" class="error-message">
-            Please enter your first name.
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="lastname" class="txt2 bo1">Last Name</label>
-          <input type="text" id="lastname" formControlName="lastname" required>
-          <div *ngIf="formData.get('lastname')?.hasError('required')" class="error-message">
-            Please enter your last name.
+          <label for="name" class="txt2 bo1">Name</label>
+          <input type="text" id="name" formControlName="name" required>
+          <div *ngIf="formData.get('name')?.hasError('required')" class="error-message">
+            Please enter your  name.
           </div>
         </div>
         <div class="form-group">

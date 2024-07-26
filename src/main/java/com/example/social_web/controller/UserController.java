@@ -1,5 +1,4 @@
 package com.example.social_web.controller;
-
 import com.example.social_web.exception.UserMistake;
 import com.example.social_web.payload.request.PasswordCreateDTO;
 import com.example.social_web.payload.response.APIResponse;

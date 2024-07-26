@@ -6,15 +6,16 @@ import { AuthenticateComponent } from './page/authenticate/authenticate.componen
 import { HomeComponent } from './page/home/home.component';
 import { MessengerComponent } from './page/messenger/messenger.component';
 import { CreatePasswordComponent } from './component/create-password/create-password.component';
+import { authGuard } from './guard/auth/auth.guard';
 
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'authenticate', component: AuthenticateComponent },
-  { path: '', component: HomeComponent },
-  { path: 'message', component: MessengerComponent },
-  { path: 'create-password', component: CreatePasswordComponent },
+  { path: '', component: HomeComponent, canActivate: [authGuard] },
+  { path: 'message', component: MessengerComponent, canActivate: [authGuard] },
+  { path: 'create-password', component: CreatePasswordComponent, canActivate: [authGuard] },
 
 ];
 

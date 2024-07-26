@@ -31,11 +31,19 @@ public class User implements UserDetails , Principal {
     Role role;
     String imageUrl;
     boolean accountLocked;
-    @OneToMany
-    Set<User> followers = new HashSet<>();
+    @ManyToMany
+    @JoinTable(
+            name = "tbl_friends",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "friend_id")
+    )
+    Set<User> friends = new HashSet<>();
 
-    @OneToMany
-    Set<User> followings = new HashSet<>();
+    @OneToMany(mappedBy = "receiver")
+    Set<FriendRequest> receivedFriendRequests = new HashSet<>();
+
+    @OneToMany(mappedBy = "sender")
+    Set<FriendRequest> sentFriendRequests = new HashSet<>();
 
 
 
@@ -75,6 +83,6 @@ public class User implements UserDetails , Principal {
     }
     @Override
     public String getName() {
-        return username;
+        return name;
     }
 }
